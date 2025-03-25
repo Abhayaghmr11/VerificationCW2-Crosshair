@@ -26,9 +26,12 @@ def camel_to_snake_case(input_str: str) -> str:
     """
 
 
-    # Preconditions
+    '''
+    Preconditions
+    '''
     assert(isinstance(input_str,str)), "Precondition: input_str must be a string"
-    assert(len(input_str)>0)
+    assert input_str.isascii(), "Precondition: ASCII only, because ⓐ is accepted but throws an error"
+    assert(len(input_str)>0), "Precondition: The length of the input_str must be greater than zero"
 
     # check for invalid input type
     if not isinstance(input_str, str):
@@ -38,6 +41,11 @@ def camel_to_snake_case(input_str: str) -> str:
     snake_str = ""
 
     for index, char in enumerate(input_str):
+        '''
+        Loop Variant
+        '''
+        assert len(snake_str) in (index, index + 1), "Loop Variant: snake_str should match how many characters have been processed."
+        
         if char.isupper():
             snake_str += "_" + char.lower()
 
@@ -55,9 +63,20 @@ def camel_to_snake_case(input_str: str) -> str:
 
         else:
             snake_str += char
+        '''
+        Loop Variant
+        '''
+        assert all(not c.isupper() for c in snake_str if c.isalpha()), "Loop Variant: All letters processed so far must be lowercase in snake_str."
 
     # remove leading underscore
     if snake_str[0] == "_":
         snake_str = snake_str[1:]
+
+    '''
+    Post Conditions
+    '''
+    assert(isinstance(snake_str,str)), "Post Condition: Return value must be a string"
+    assert(len(snake_str)>0), "Post Condition: The length of return value must be greater than 0"
+
 
     return snake_str

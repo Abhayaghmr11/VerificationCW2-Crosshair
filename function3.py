@@ -1,76 +1,71 @@
-"""
-Partition a set into two subsets such that the difference of subset sums is minimum
-"""
 
 
-def find_min(numbers: list[int]) -> int:
+def longest_subsequence(array: list[int]) -> list[int]:  # This function is recursive
     """
-    >>> find_min([1, 2, 3, 4, 5])
-    1
-    >>> find_min([5, 5, 5, 5, 5])
-    5
-    >>> find_min([5, 5, 5, 5])
-    0
-    >>> find_min([3])
-    3
-    >>> find_min([])
-    0
-    >>> find_min([1, 2, 3, 4])
-    0
-    >>> find_min([0, 0, 0, 0])
-    0
-    >>> find_min([-1, -5, 5, 1])
-    0
-    >>> find_min([-1, -5, 5, 1])
-    0
-    >>> find_min([9, 9, 9, 9, 9])
-    9
-    >>> find_min([1, 5, 10, 3])
-    1
-    >>> find_min([-1, 0, 1])
-    0
-    >>> find_min(range(10, 0, -1))
-    1
-    >>> find_min([-1])
-    Traceback (most recent call last):
-        --
-    IndexError: list assignment index out of range
-    >>> find_min([0, 0, 0, 1, 2, -4])
-    Traceback (most recent call last):
-        ...
-    IndexError: list assignment index out of range
-    >>> find_min([-1, -5, -10, -3])
-    Traceback (most recent call last):
-        ...
-    IndexError: list assignment index out of range
+    Some examples
+
+    >>> longest_subsequence([10, 22, 9, 33, 21, 50, 41, 60, 80])
+    [10, 22, 33, 41, 60, 80]
+    >>> longest_subsequence([4, 8, 7, 5, 1, 12, 2, 3, 9])
+    [1, 2, 3, 9]
+    >>> longest_subsequence([28, 26, 12, 23, 35, 39])
+    [12, 23, 35, 39]
+    >>> longest_subsequence([9, 8, 7, 6, 5, 7])
+    [5, 7]
+    >>> longest_subsequence([1, 1, 1])
+    [1, 1, 1]
+    >>> longest_subsequence([])
+    []
     """
-    n = len(numbers)
-    s = sum(numbers)
 
-    dp = [[False for x in range(s + 1)] for y in range(n + 1)]
+    '''
+    Preconditions
+    '''
+    assert(isinstance(array,list)), "The input must be a array list"
+    assert(all(isinstance(x,int) for x in array)), "Every element in the array must be an int"
 
-    for i in range(n + 1):
-        dp[i][0] = True
+    array_length = len(array)
+    # If the array contains only one element, we return it (it's the stop condition of
+    # recursion)
+    if array_length <= 1:
+        return array
+        # Else
+    pivot = array[0]
+    is_found = False
+    i = 1
+    longest_subseq: list[int] = []
+    while not is_found and i < array_length:
+        '''
+        Loop variants
+        '''
+        assert(all(array[k]>=pivot) for k in range(1,i) ), "Loop Variant: Element before i should be greater than pivot until smaller one is found"
 
-    for i in range(1, s + 1):
-        dp[0][i] = False
+        if array[i] < pivot:
+            is_found = True
+            temp_array = array[i:]
+            temp_array = longest_subsequence(temp_array)
 
-    for i in range(1, n + 1):
-        for j in range(1, s + 1):
-            dp[i][j] = dp[i - 1][j]
+            '''
+            Loop Variant
+            '''
+            assert(all(temp_array[j]<= temp_array[j+1]) for j in range(len(temp_array)-1)), "Loop Variant: The subsequence must be non-decreasing"
 
-            if numbers[i - 1] <= j:
-                dp[i][j] = dp[i][j] or dp[i - 1][j - numbers[i - 1]]
+            if len(temp_array) > len(longest_subseq):
+                longest_subseq = temp_array
+        else:
+            i += 1
 
-    for j in range(int(s / 2), -1, -1):
-        if dp[n][j] is True:
-            diff = s - 2 * j
-            break
-
-    return diff
-
-
-if __name__ == "__main__":
-    from doctest import testmod
-
-    testmod()
+    temp_array = [element for element in array[1:] if element >= pivot]
+    temp_array = [pivot, *longest_subsequence(temp_array)]
+    if len(temp_array) > len(longest_subseq):
+        '''
+        Postcondition
+        '''
+        assert all(temp_array[j] <= temp_array[j+1] for j in range(len(temp_array) - 1)), "Postcondition: returned subsequence must be non-decreasing"
+        return temp_array
+    else:
+        '''
+        Postcondition
+        '''
+        assert all(longest_subseq[j] <= longest_subseq[j+1] for j in range(len(longest_subseq) - 1)), "Postcondition: returned subsequence must be non-decreasing"
+        return longest_subseq
