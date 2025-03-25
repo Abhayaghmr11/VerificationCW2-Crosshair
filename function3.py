@@ -69,3 +69,13 @@ def longest_subsequence(array: list[int]) -> list[int]:  # This function is recu
         '''
         assert all(longest_subseq[j] <= longest_subseq[j+1] for j in range(len(longest_subseq) - 1)), "Postcondition: returned subsequence must be non-decreasing"
         return longest_subseq
+
+
+if __name__ == "__main__":
+    # Exercise the function with a few test cases
+    print(longest_subsequence([10, 22, 9, 33, 21, 50, 41, 60, 80]))
+    print(longest_subsequence([4, 8, 7, 5, 1, 12, 2, 3, 9]))
+    print(longest_subsequence([28, 26, 12, 23, 35, 39]))
+    print(longest_subsequence([9, 8, 7, 6, 5, 7]))
+    print(longest_subsequence([1, 1, 1]))
+    print(longest_subsequence([]))

@@ -44,7 +44,7 @@ def camel_to_snake_case(input_str: str) -> str:
         '''
         Loop Variant
         '''
-        assert len(snake_str) in (index, index + 1), "Loop Variant: snake_str should match how many characters have been processed."
+        assert(all(index + 1) <= len(snake_str) <= 2 * (index + 1) for index,char in enumerate(input_str)), "LLoop Variant: snake_str should match how many characters have been processed."
         
         if char.isupper():
             snake_str += "_" + char.lower()
