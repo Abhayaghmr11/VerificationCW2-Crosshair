@@ -7,14 +7,38 @@ from sys import maxsize
 
 
 def smallest_range(nums: list[list[int]]) -> list[int]:
-    '''
-    pre: len(nums) > 0
-    pre: len(L) > 0
-    pre: all(all(L[i] <= L[i+1] for i in range(len(L)-1)) for L in nums)
-    post: len(__return__) == 0    
-    post: __return__[0] <= __return__[1]
-    '''
+    """
+    Find the smallest range from each list in nums.
 
+    Uses min heap for efficiency. The range includes at least one number from each list.
+
+    Args:
+        `nums`: List of k sorted integer lists.
+
+    Returns:
+        list: Smallest range as a two-element list.
+
+    Examples:
+
+    >>> smallest_range([[4, 10, 15, 24, 26], [0, 9, 12, 20], [5, 18, 22, 30]])
+    [20, 24]
+    >>> smallest_range([[1, 2, 3], [1, 2, 3], [1, 2, 3]])
+    [1, 1]
+    >>> smallest_range(((1, 2, 3), (1, 2, 3), (1, 2, 3)))
+    [1, 1]
+    >>> smallest_range(((-3, -2, -1), (0, 0, 0), (1, 2, 3)))
+    [-1, 1]
+    >>> smallest_range([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    [3, 7]
+    >>> smallest_range([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+    [0, 0]
+    >>> smallest_range([[], [], []])
+    Traceback (most recent call last):
+        ...
+    IndexError: list index out of range
+    """
+    
+    
     '''
     Precondition
     '''
@@ -34,7 +58,7 @@ def smallest_range(nums: list[list[int]]) -> list[int]:
 
     while min_heap:
         '''
-        Loop Variant
+        Loop invariant
         '''
         assert all(len(nums[i]) > 0 for _, i, _ in min_heap), "Loop Variant: No list in the heap is empty."
         assert all(current_max >= element[0] for element in min_heap), "Loop Variant: current_max ≥ all elements in heap."            

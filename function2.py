@@ -24,9 +24,8 @@ def camel_to_snake_case(input_str:str) -> str:
     ValueError: Expected string as input, found <class 'int'>
 
     """
-
-
     '''
+    
     Preconditions
     '''
     assert(isinstance(input_str,str)), "Precondition: input_str must be a string"
@@ -42,7 +41,7 @@ def camel_to_snake_case(input_str:str) -> str:
 
     for index, char in enumerate(input_str):
         '''
-        Loop Variant
+        Loop invariant
         '''
         assert(all(index + 1) <= len(snake_str) <= 2 * (index + 1) for index,char in enumerate(input_str)), "Loop Variant: snake_str should match how many characters have been processed."
         
@@ -64,7 +63,7 @@ def camel_to_snake_case(input_str:str) -> str:
         else:
             snake_str += char
         '''
-        Loop Variant
+        Loop invariant
         '''
         assert all(not c.isupper() for c in snake_str if c.isalpha()), "Loop Variant: All letters processed so far must be lowercase in snake_str."
 
@@ -77,6 +76,5 @@ def camel_to_snake_case(input_str:str) -> str:
     '''
     assert(isinstance(snake_str,str)), "Post Condition: Return value must be a string"
     assert(len(snake_str)>0), "Post Condition: The length of return value must be greater than 0"
-
 
     return snake_str

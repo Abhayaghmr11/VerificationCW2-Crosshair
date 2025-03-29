@@ -1,4 +1,6 @@
-
+# This function is sourced from https://github.com/TheAlgorithms/Python/blob/master/dynamic_programming/longest_increasing_subsequence.py
+# Only changes are made to the docstring
+# Contracts are added where applicable
 
 def longest_subsequence(array: list[int]) -> list[int]:  # This function is recursive
     """
@@ -36,7 +38,7 @@ def longest_subsequence(array: list[int]) -> list[int]:  # This function is recu
     longest_subseq: list[int] = []
     while not is_found and i < array_length:
         '''
-        Loop variants
+        Loop invariant
         '''
         assert(all(array[k]>=pivot) for k in range(1,i) ), "Loop Variant: Element before i should be greater than pivot until smaller one is found"
 
@@ -46,7 +48,7 @@ def longest_subsequence(array: list[int]) -> list[int]:  # This function is recu
             temp_array = longest_subsequence(temp_array)
 
             '''
-            Loop Variant
+            Loop invariant
             '''
             assert(all(temp_array[j]<= temp_array[j+1]) for j in range(len(temp_array)-1)), "Loop Variant: The subsequence must be non-decreasing"
 
@@ -69,13 +71,3 @@ def longest_subsequence(array: list[int]) -> list[int]:  # This function is recu
         '''
         assert all(longest_subseq[j] <= longest_subseq[j+1] for j in range(len(longest_subseq) - 1)), "Postcondition: returned subsequence must be non-decreasing"
         return longest_subseq
-
-
-if __name__ == "__main__":
-    # Exercise the function with a few test cases
-    print(longest_subsequence([10, 22, 9, 33, 21, 50, 41, 60, 80]))
-    print(longest_subsequence([4, 8, 7, 5, 1, 12, 2, 3, 9]))
-    print(longest_subsequence([28, 26, 12, 23, 35, 39]))
-    print(longest_subsequence([9, 8, 7, 6, 5, 7]))
-    print(longest_subsequence([1, 1, 1]))
-    print(longest_subsequence([]))
