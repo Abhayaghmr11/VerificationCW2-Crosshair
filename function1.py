@@ -59,9 +59,3 @@ def smallest_range(nums: list[list[int]]) -> list[int]:
     assert(smallest_range[0] <= smallest_range[1]), "Postcondition: The return list must be sorted"
     
     return smallest_range
-
-if __name__ == "__main__":
-    # Example test case
-    example = [[4, 10, 15, 24, 26], [0, 9, 12, 20], [5, 18, 22, 30]]
-    result = smallest_range(example)
-    print("Smallest range:", result)

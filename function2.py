@@ -2,7 +2,7 @@
 # Only chnages are made to the docstring
 # Contracts are added where applicable
 
-def camel_to_snake_case(input_str: str) -> str:
+def camel_to_snake_case(input_str:str) -> str:
     """
     Transforms a camelCase (or PascalCase) string to snake_case
 
@@ -30,7 +30,7 @@ def camel_to_snake_case(input_str: str) -> str:
     Preconditions
     '''
     assert(isinstance(input_str,str)), "Precondition: input_str must be a string"
-    assert input_str.isascii(), "Precondition: ASCII only, because ⓐ is accepted but throws an error"
+    assert(input_str.isascii()), "Precondition: ASCII only, because ⓐ is accepted but throws an error"
     assert(len(input_str)>0), "Precondition: The length of the input_str must be greater than zero"
 
     # check for invalid input type
@@ -44,7 +44,7 @@ def camel_to_snake_case(input_str: str) -> str:
         '''
         Loop Variant
         '''
-        assert(all(index + 1) <= len(snake_str) <= 2 * (index + 1) for index,char in enumerate(input_str)), "LLoop Variant: snake_str should match how many characters have been processed."
+        assert(all(index + 1) <= len(snake_str) <= 2 * (index + 1) for index,char in enumerate(input_str)), "Loop Variant: snake_str should match how many characters have been processed."
         
         if char.isupper():
             snake_str += "_" + char.lower()
